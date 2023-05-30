@@ -13,7 +13,8 @@ class UsersController {
         //criar
         const {name, email, password} = request.body;
         try{
-           // const result = userService(name, email, password)
+           const result = userService(name, email, password);
+           return response.status(201).json(result)
 
         } catch(error){
             next(error)
