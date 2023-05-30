@@ -1,14 +1,9 @@
 import { prisma } from "../database/prisma"
+import { ICreate } from "../interfaces/UsersInterface";
 
-interface ICreate {
-    name: string;
-    email: string;
-    password: string;
 
-}
-
-class UserRepository{
-    async createStoreHook({name, email, password}: ICreate){
+class UsersRepository{
+    async create({name, email, password}: ICreate){
         const result = await prisma.users.create({
             data:{
                 name,
@@ -20,4 +15,4 @@ class UserRepository{
         return result;
     }
 }
-export{UserRepository}
+export{UsersRepository}
