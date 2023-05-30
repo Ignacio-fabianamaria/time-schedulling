@@ -30,6 +30,20 @@ class UsersController {
     auth(){
         //autenticação
     }
+
+    async update(request:Request, response:Response, next:NextFunction){
+        const {name,oldPassword, newPassword} = request.body;
+        console.log(request.files);
+        
+        try{
+           const result = await this.usersServices.create({name,oldPassword, newPassword, avatar_url});
+           return response.status(201).json(result)
+
+        } catch(error){
+            next(error)
+        }
+
+    }
 }
 
 export{UsersController}
