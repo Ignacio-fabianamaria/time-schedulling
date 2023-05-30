@@ -6,8 +6,12 @@ class UserServices {
     constructor(){
         this.usersRepository = new UsersRepository();
     }
-    create({ name, email, password }: ICreate){
-        const findUser = this.usersRepository.create({ name, email, password })
+    async create({ name, email, password }: ICreate){
+        const findUser = await this.usersRepository.findUserByEmail(email);
+        if(findUser){
+            throw new Error('User exist')
+        }
+        const create = this.usersRepository.create({ name, email, password })
     }
 }
 export {UserServices}
