@@ -2,7 +2,7 @@ import { hash } from "bcrypt";
 import { ICreate } from "../interfaces/UsersInterface";
 import { UsersRepository } from "../repositories/UsersRepository";
 
-class UserServices {
+class UsersServices {
     private usersRepository: UsersRepository;
     constructor(){
         this.usersRepository = new UsersRepository();
@@ -13,8 +13,8 @@ class UserServices {
             throw new Error('User exist')
         }
         const hashPassword = await hash(password, 10)
-        const create = this.usersRepository.create({ name, email, password:hashPassword });
+        const create = await this.usersRepository.create({ name, email, password:hashPassword });
         return create;
     }
 }
-export {UserServices}
+export {UsersServices}
