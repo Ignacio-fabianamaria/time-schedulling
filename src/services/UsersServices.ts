@@ -1,8 +1,9 @@
-import { hash } from "bcrypt";
+import { hash, compare } from "bcrypt";
 import { ICreate, IUpdate } from "../interfaces/UsersInterface";
 import { UsersRepository } from "../repositories/UsersRepository";
 import { s3 } from "../config/aws";
 import {v4 as uuid} from 'uuid';
+import { sign } from "jsonwebtoken";
 
 class UsersServices {
     private usersRepository: UsersRepository;
@@ -18,6 +19,25 @@ class UsersServices {
         const create = await this.usersRepository.create({ name, email, password:hashPassword });
         return create;
     }
+
+    async auth(email:string, password:string){
+        const findUser = await this.usersRepository.findUserByEmail(email);
+        if(!findUser){
+            throw new Error('User or password invalid.')
+        }
+        const isPassword = compare(password, findUser.password);
+        if(!isPassword){
+            throw new Error('User or password invalid.')
+        }
+        let secretKey: string | undefined = process.env.ACCESS_KEY_TOKEN;
+        if(!secretKey){throw new Error('There is no token key')}
+        const token =sign({email},  secretKey,{
+            subject:findUser.id,
+            expiresIn: 60 * 20,
+        });
+        return {token, user:{name:findUser.name, email: findUser.email}}
+    }
+
 
     async update({ name, oldPassword, newPassword, avatar_url}:IUpdate){
          const uploadImage = avatar_url?.buffer;
