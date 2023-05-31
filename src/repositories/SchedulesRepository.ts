@@ -31,5 +31,16 @@ class SchedulesRepository {
         });
         return result;
     }
+    async update(id:string, date:Date){
+        const result = await prisma.schedule.update({
+            where: {
+                id:id,
+            },
+            data: {
+                date: date,
+            },
+        });
+        return result;
+    }
 }
 export { SchedulesRepository }

@@ -31,7 +31,16 @@ class SchedulesControlle{;
     };
 
     //metodo para atualizar
-    update(request:Request, response:Response, next:NextFunction){};
+    async update(request:Request, response:Response, next:NextFunction){
+        const {id} = request.params;
+        const {date} = request.body;
+        try {
+            const result = await this.schedulesService.update(id, date);
+            return response.status(200).json(result);
+        } catch (error) {
+            next(error)
+        }
+    };
 
     //metodo para deletar
     delete(request:Request, response:Response, next:NextFunction){};

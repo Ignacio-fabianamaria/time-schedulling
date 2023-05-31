@@ -9,7 +9,6 @@ class UsersRepository {
                 name,
                 email,
                 password,
-
             },
         });
         return result;

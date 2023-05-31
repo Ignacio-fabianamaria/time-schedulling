@@ -1,5 +1,5 @@
 import { ISchedulesCreate } from "../interfaces/SchedulesInterface";
-import { startOfHour, isBefore } from 'date-fns'
+import { startOfHour, isBefore, getHours } from 'date-fns'
 import { SchedulesRepository } from "../repositories/SchedulesRepository";
 
 class SchedulesService {
@@ -13,9 +13,11 @@ class SchedulesService {
             throw new Error("Data não fornecida");
         }
         const dateFormatted = new Date(date);
-        const hourStart = startOfHour(dateFormatted)
-
-        console.log('schedules formatado =>', hourStart);
+        const hourStart = startOfHour(dateFormatted);
+        const hour = getHours(hourStart);
+        if(hour<= 9 || hour >= 19){
+            throw new Error('Create Schedules between 9 and 19.')
+        }
 
         if (isBefore(hourStart, new Date())) {
             throw new Error('It is not allowed to schedules old date');
@@ -32,6 +34,21 @@ class SchedulesService {
     async index(date: Date) {
         const result = await this.schedulesRepository.findAll(date);
         console.log('listar todos => ', result);
+        return result;
+    }
+
+    async update(id:string, date:Date) {
+        const dateFormatted = new Date(date);
+        const hourStart = startOfHour(dateFormatted)
+
+        if (isBefore(hourStart, new Date())) {
+            throw new Error('It is not allowed to schedules old date');
+        };
+        const chechIsavailable = await this.schedulesRepository.find(hourStart)
+        if (chechIsavailable) {
+            throw new Error('Schedules date is not available')
+        }
+        const result = await this.schedulesRepository.update(id, date);
         return result;
     }
 
