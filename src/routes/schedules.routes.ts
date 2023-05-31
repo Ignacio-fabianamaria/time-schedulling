@@ -10,7 +10,9 @@ class SchedulesRoutes{
         this.schedulesController = new SchedulesControlle()
     }
     getRoutes():Router {
-        this.router.post('/', this.schedulesController.store.bind(this.schedulesController));
+        this.router.post('/',
+        this.schedulesController.store.bind(this.schedulesController));
+        
         return this.router;
     }
 }

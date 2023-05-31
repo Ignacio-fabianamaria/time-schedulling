@@ -22,5 +22,5 @@ model Schedule {
   id    String   @id @default(uuid())
   name  String
   phone String
-  date  DateTime
+  date  DateTime 
 }
