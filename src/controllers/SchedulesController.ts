@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { SchedulesService } from "../services/Schedules.Service";
+import { parseISO } from "date-fns";
 
 class SchedulesControlle{;
     private schedulesService:SchedulesService
@@ -18,7 +19,16 @@ class SchedulesControlle{;
         };
     };
     //metodo para listar
-    index(request:Request, response:Response, next:NextFunction){};
+    async index(request:Request, response:Response, next:NextFunction){
+        const { date } = request.query;
+        const parseDate = date? parseISO(date.toString()) : new Date();
+        try {
+            const result = await this.schedulesService.index(parseDate)
+            return response.status(200).json(result)
+        } catch (error) {
+            next(error)
+        }
+    };
 
     //metodo para atualizar
     update(request:Request, response:Response, next:NextFunction){};

@@ -1,3 +1,4 @@
+import { endOfDay, startOfDay } from "date-fns";
 import { prisma } from "../database/prisma"
 import { ISchedulesCreate } from "../interfaces/SchedulesInterface";
 
@@ -12,6 +13,21 @@ class SchedulesRepository {
     async find(date: Date) {
         const result = await prisma.schedule.findFirst({
             where: { date }
+        });
+        return result;
+    }
+
+    async findAll(date: Date){
+        const result = await prisma.schedule.findMany({
+            where: {
+                date: {
+                    gte: startOfDay(date),
+                    lt: endOfDay(date),
+                },
+            },
+            orderBy: {
+                date: 'asc',
+            },
         });
         return result;
     }
