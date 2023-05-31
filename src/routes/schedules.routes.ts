@@ -12,7 +12,10 @@ class SchedulesRoutes{
     getRoutes():Router {
         this.router.post('/',
         this.schedulesController.store.bind(this.schedulesController));
-        
+
+        this.router.get('/',
+        this.schedulesController.index.bind(this.schedulesController));
+
         return this.router;
     }
 }
