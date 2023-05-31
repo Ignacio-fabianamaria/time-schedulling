@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { UsersServices } from "../services/UsersServices";
-import { s3 } from "../config/aws";
+
 
 
 class UsersController {
@@ -42,6 +42,7 @@ class UsersController {
 
     async update(request:Request, response:Response, next:NextFunction){
         const {name,oldPassword, newPassword} = request.body;
+        const {user_id} = request;
         console.log(request.file);
         
         try{
@@ -50,7 +51,9 @@ class UsersController {
                 name,
                 oldPassword,
                 newPassword,
-                avatar_url:request.file});
+                avatar_url:request.file,
+                user_id,
+            });
                 return response.status(200).json(result);
             
 

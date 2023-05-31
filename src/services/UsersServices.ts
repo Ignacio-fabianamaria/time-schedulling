@@ -1,5 +1,5 @@
 import { hash, compare } from "bcrypt";
-import { ICreate, IUpdate } from "../interfaces/UsersInterface";
+import { ICreate, IUpdate} from "../interfaces/UsersInterface";
 import { UsersRepository } from "../repositories/UsersRepository";
 import { s3 } from "../config/aws";
 import {v4 as uuid} from 'uuid';
@@ -39,15 +39,36 @@ class UsersServices {
     }
 
 
-    async update({ name, oldPassword, newPassword, avatar_url}:IUpdate){
-         const uploadImage = avatar_url?.buffer;
-            const uploadS3 = await s3.upload({
-                Bucket: 'desafio-react-node-herocode',
-                Key: `${uuid()}-${avatar_url?.originalname}`,
-                // ACL: 'public-read',
-                Body: uploadImage,
-            }).promise();
-            console.log('url =>', uploadS3.Location);
+    async update({ name, oldPassword, newPassword, avatar_url, user_id}:IUpdate){
+        let password
+        if(oldPassword && newPassword){
+            const finfUserById = await this.usersRepository.findUserById(user_id);
+
+            if(!finfUserById){
+                throw new Error('User not found');
+            };
+
+            const isPassword = compare(oldPassword, finfUserById.password);
+
+            if(!isPassword){
+                throw new Error('Password invalid.');
+            };
+            password = await hash(newPassword, 10)
+            await this.usersRepository.updatePassword(password,user_id)
+        }
+        if(avatar_url){
+
+            const uploadImage = avatar_url?.buffer;
+               const uploadS3 = await s3.upload({
+                   Bucket: 'desafio-react-node-herocode',
+                   Key: `${uuid()}-${avatar_url?.originalname}`,
+                   // ACL: 'public-read',
+                   Body: uploadImage,
+               }).promise();
+               console.log('url =>', uploadS3.Location);
+               await this.usersRepository.update(name, user_id, uploadS3.Location);
+        }
+        return {message: "User updated successfully"};
     }
 }
 export {UsersServices}

@@ -12,6 +12,7 @@ export interface IUpdate {
     oldPassword: string
     newPassword: string
     avatar_url?: IFileUpload
+    user_id:string
 }
 
 interface IFileUpload{

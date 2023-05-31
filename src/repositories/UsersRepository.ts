@@ -1,5 +1,5 @@
 import { prisma } from "../database/prisma"
-import { ICreate } from "../interfaces/UsersInterface";
+import { ICreate} from "../interfaces/UsersInterface";
 
 
 class UsersRepository {
@@ -23,18 +23,41 @@ class UsersRepository {
         return result;
     }
 
-    async update(name: string, newpassword: string, avatar_url: string) {
+    async findUserById(id: string) {
+        const result = await prisma.users.findUnique({
+            where: {
+                id: id,
+            },
+        });
+        return result;
+    }
+
+    async update(name:string, avatar_url:string, user_id:string) {
         const result = await prisma.users.update({
             where: {
-                // filter here
+                id:user_id,
             },
             data: {
                 name,
-                password: newpassword,
                 avatar_url,
             },
         });
         return result
     }
+
+    async updatePassword(newPassword:string, user_id:string) {
+        const result = await prisma.users.update({
+            where: {
+                id:user_id,
+            },
+            data: {
+               
+                password: newPassword,
+               
+            },
+        });
+        return result
+    }
+
 }
 export { UsersRepository }
