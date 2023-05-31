@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { UsersServices } from "../services/UsersServices";
+import { s3 } from "../config/aws";
+
 
 class UsersController {
     private usersServices: UsersServices;
@@ -33,11 +35,17 @@ class UsersController {
 
     async update(request:Request, response:Response, next:NextFunction){
         const {name,oldPassword, newPassword} = request.body;
-        console.log(request.files);
+        console.log(request.file);
         
         try{
-           const result = await this.usersServices.create({name,oldPassword, newPassword, avatar_url});
-           return response.status(201).json(result)
+            
+            const result = await this.usersServices.update({
+                name,
+                oldPassword,
+                newPassword,
+                avatar_url:request.file});
+                return response.status(200).json(result);
+            
 
         } catch(error){
             next(error)
