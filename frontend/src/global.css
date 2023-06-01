@@ -1,0 +1,17 @@
+:root {
+    --primary: #348789;
+    --secondary: #001489;
+    --gray-50: #DDDFEB;
+    --gray-100: #87909050;
+    --gray200: #535653;
+    --gray300: #7C838B;
+    --white: #fff;
+    --black: #272B30;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
