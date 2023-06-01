@@ -1,15 +1,13 @@
+import { BrowserRouter } from 'react-router-dom';
 import './global.css';
+import { RouteApp } from './routes';
 
 function App() {
  
   return (
-    <>
-      <div>
-        <h1>
-        Time Schedules
-          </h1>
-       </div>
-    </>
+    <BrowserRouter>
+    <RouteApp />
+    </BrowserRouter>
   )
 }
 
