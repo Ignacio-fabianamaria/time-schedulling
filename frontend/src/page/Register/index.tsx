@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {AiOutlineMail} from 'react-icons/ai';
 import {BsPersonCircle} from 'react-icons/bs';
 import {RiLockPasswordLine} from 'react-icons/ri';
+import { api } from '../../server';
 
 interface IFormValues {
   name: string;
@@ -31,8 +32,13 @@ export function Register() {
     .required('Campo de senh obrigatório')
   })
   const { register, handleSubmit, formState: { errors } } = useForm<IFormValues>({resolver: yupResolver(schema)});
-  const submit = handleSubmit((data) => {
-    console.log("🚀 ~ file: index.tsx:32 ~ Register ~ data:", data)
+  const submit = handleSubmit(async(data) => {
+    const result = await api.post('/users', {
+      name:data.name,
+      email:data.email,
+      password:data.password,
+    });
+    console.log("🚀 ~ file: index.tsx:41 ~ submit ~ result:", result.data)
   });
 
   return (
