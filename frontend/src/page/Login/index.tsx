@@ -4,6 +4,8 @@ import { Input } from '../../components/input';
 import {useForm} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { Button } from '../../components/button';
+import { Link } from 'react-router-dom';
 
 
 interface IFormValues{
@@ -50,9 +52,15 @@ export function Login() {
              type = 'password'
              {...register('password',{required:true})} 
              />
-              <button></button>
+              <Button text='Entrar'/>
             </form>
-
+            <div className={style.register}>
+            <span>Ainda não tem conta? 
+              <Link to={'/register'}>
+                Cadastre-se
+                </Link>
+                </span>
+                </div>
           </div>
         </div>
       </div>
