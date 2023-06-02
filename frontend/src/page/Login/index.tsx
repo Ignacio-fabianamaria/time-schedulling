@@ -1,5 +1,6 @@
 import style from './Login.module.css';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo.webp';
+import { Input } from '../../components/input';
 
 export function Login() {
   return (
@@ -7,13 +8,14 @@ export function Login() {
       <div className={`container ${style.container}`} >
         <div className={style.wrapper}>
           <div>
-            <img src={logo} alt='logo' />
+            <img className={style.logo} src={logo} alt='logo' />
+            <p className={style.nameLogo} >Beleza e Estética</p>
           </div>
           <div className={style.card}>
             <h2>Olá! Seja Bem Vindo.</h2>
             <form>
-              <input type="text" />
-              <input type="text" />
+             <Input placeholder="Email"/>
+             <Input placeholder="Senha" />
               <button></button>
             </form>
 
