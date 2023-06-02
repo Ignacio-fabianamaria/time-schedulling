@@ -6,6 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Button } from '../../components/button';
 import { Link } from 'react-router-dom';
+import {AiOutlineMail} from 'react-icons/ai';
+import {RiLockPasswordLine} from 'react-icons/ri';
 
 
 interface IFormValues{
@@ -44,12 +46,15 @@ export function Login() {
              <Input
              placeholder="Email"
              type = 'text'
+             icon={<AiOutlineMail size={25} />}
              error ={errors.email && errors.email.message}
              {...register('email',{required:true})} 
              />
              <Input
              placeholder="Senha"
              type = 'password'
+             icon={<RiLockPasswordLine size={25} />}
+             error={errors.password && errors.password.message}
              {...register('password',{required:true})} 
              />
               <Button text='Entrar'/>
