@@ -1,4 +1,4 @@
-import { ReactNode, createContext } from "react";
+import { ReactNode, createContext, useState } from "react";
 import { api } from "../server";
 import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
@@ -8,12 +8,22 @@ interface IAuthProvider { children: ReactNode }
 interface IAuthContextData { 
   signIn: ({ email, password }: ISignIn) => void;
   signOut: ()=>void;
+  user:IUserData
 }
+interface IUserData{name:string,avatar_url:string, email:string}
 interface ISignIn { email: string, password: string }
 
 export const AuthContext = createContext({} as IAuthContextData);
 
+
 export function AuthProvider({ children }: IAuthProvider) {
+  const [user, setUser] = useState(()=>{
+    const user = localStorage.getItem('user:token-timeScheduling')
+    if(user){
+      return JSON.parse(user)
+    }
+    return {};
+  })
   const navigate = useNavigate();
   async function signIn({ email, password }: ISignIn) {
     try {
@@ -28,7 +38,8 @@ export function AuthProvider({ children }: IAuthProvider) {
       localStorage.setItem('refresh_token:token-timeScheduling', refresh_Token);
       localStorage.setItem('user:token-timeScheduling', JSON.stringify(userData));
       navigate('/dashboard');
-      toast.success(`Seja bem vindo, ${userData.name}`)
+      toast.success(`Seja bem vindo(a)!, ${userData.name}`);
+      setUser(userData);
       return data;
     } catch (error) {
       if (isAxiosError(error)) {
@@ -46,7 +57,7 @@ function signOut(){
 }
 
   return (
-    <AuthContext.Provider value={{ signIn, signOut }}>
+    <AuthContext.Provider value={{ signIn, signOut, user }}>
       {children}
     </AuthContext.Provider>
   )
