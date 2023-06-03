@@ -1,13 +1,25 @@
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { CiEdit } from 'react-icons/ci';
 import style from './Card.module.css';
+import { getHours, isAfter } from 'date-fns';
 
-export const Card = () => {
+interface ISchedule {
+  name: string;
+  date: Date;
+  id: string;
+  phone:string;
+}
+
+export const Card = ({name, date, id, phone}:ISchedule) => {
+  const isAfterDate = isAfter(new Date(date), new Date());
+  let phoneFormatted = phone.replace('/D/g', '');
+  phoneFormatted = phoneFormatted.replace(/(\d{2})(\d{4})(\d{4})/,'($1) $2-$3');
+
   return (
     <div className={style.background}>
       <div>
-        <span>10h</span>
-        <p>Faby</p>
+        <span className={ `${!isAfterDate && style.disabled}`}>{getHours(new Date(date))}</span>
+        <p>{name} - {phoneFormatted}</p>
         </div>
         <div className={style.icons}>
           <CiEdit color="#5F68B1" size={22} />

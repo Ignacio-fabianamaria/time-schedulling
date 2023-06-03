@@ -18,6 +18,7 @@
     color: var(--primary);
     font-size: 1.2rem;
 }
+
 .background>div>span{
     background-color: var(--secondary);
     color: var(--white);
@@ -30,4 +31,8 @@
     margin-right: .8rem;
     gap: .8rem;
     cursor: pointer;
+}
+
+.disabled{
+    background-color:var(--gray-300)!important ;
 }

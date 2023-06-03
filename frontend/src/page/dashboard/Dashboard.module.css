@@ -43,3 +43,32 @@ width: 5px;
     color: var(--secondary);
     margin-bottom: 1.3rem;
 }
+
+.calendar {
+    background-color: var(--primary);
+    height: fit-content;
+    padding: 1rem;
+    border-radius: 10px;
+    color: var(--white);
+    box-shadow: 4px 8px 4px rgb(0, 0, 0, 0.3);
+  }
+  
+  .day:not(.disabled) {
+    background-color: var(--white);
+    width: 40px;
+    height: 40px;
+    color: var(--black);
+    margin: .15rem;
+    border-radius: 5px;
+  
+  }
+  
+  .day.disabled {
+    background-color: var(--gray-200) !important;
+  
+  }
+  
+  .selected {
+    color: var(--white) !important;
+    background-color: var(--secondary) !important;
+  }
