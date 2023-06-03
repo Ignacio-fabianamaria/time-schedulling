@@ -8,6 +8,7 @@
 .schedule{
     display: flex;
     justify-content: space-between;
+    padding: 2rem;
 }
 
 .cardWrapper, .picker{
@@ -15,7 +16,7 @@
 }
 
 .cardWrapper{
-    padding: 0 1rem;
+    padding: .8rem;
     max-height: 60vh;
     overflow-y: auto;
     scroll-behavior: smooth;
@@ -41,7 +42,9 @@ width: 5px;
 
 .nextSchedules{
     color: var(--secondary);
-    margin-bottom: 1.3rem;
+    margin-top: 1.3rem;
+    margin-bottom: .5rem;
+    margin-left: 3rem;
 }
 
 .calendar {

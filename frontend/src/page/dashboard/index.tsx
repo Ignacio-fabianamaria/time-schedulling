@@ -53,7 +53,7 @@ export function Dashboard() {
           dia {format(date, 'dd/MM/yyy')}
         </p>
       </div>
-      <h2 className={style.nextSchedules}>Próximos Horários</h2>
+      <h2 className={style.nextSchedules}>Próximos Horários:</h2>
       <div className={style.schedule}>
         <div className={style.cardWrapper}>
           {schedules.map((schedule, index) =>{
