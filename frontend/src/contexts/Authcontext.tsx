@@ -5,7 +5,10 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 interface IAuthProvider { children: ReactNode }
-interface IAuthContextData { signIn: ({ email, password }: ISignIn) => void }
+interface IAuthContextData { 
+  signIn: ({ email, password }: ISignIn) => void;
+  signOut: ()=>void;
+}
 interface ISignIn { email: string, password: string }
 
 export const AuthContext = createContext({} as IAuthContextData);
@@ -35,8 +38,15 @@ export function AuthProvider({ children }: IAuthProvider) {
       }
     }
   }
+function signOut(){
+  localStorage.removeItem('token:token-timeScheduling');
+  localStorage.removeItem('refresh_token:token-timeScheduling');
+  localStorage.removeItem('user:token-timeScheduling');
+  navigate('/');
+}
+
   return (
-    <AuthContext.Provider value={{ signIn }}>
+    <AuthContext.Provider value={{ signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   )
