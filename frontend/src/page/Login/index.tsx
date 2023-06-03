@@ -8,7 +8,7 @@ import { Button } from '../../components/button';
 import { Link, useNavigate } from 'react-router-dom';
 import {AiOutlineMail} from 'react-icons/ai';
 import {RiLockPasswordLine} from 'react-icons/ri';
-import { api } from '../../server';
+import { useAuth } from '../../hooks/auth';
 
 
 interface IFormValues{
@@ -17,6 +17,7 @@ interface IFormValues{
 }
 
 export function Login() {
+  const {signIn} = useAuth()
   const navigate = useNavigate();
   const schema = yup.object().shape({
     email: yup
@@ -37,13 +38,14 @@ export function Login() {
     resolver: yupResolver(schema)
   });
   
-  const submit = handleSubmit(async(data) => {
-   const result = await api.post('/users/auth', {
-    email:data.email,
-    password:data.password,
+  const submit = handleSubmit(({email, password}) => {
+    try {
+      signIn({email, password});
+      navigate('/dashboard')
+    } catch (error) {
+      console.log("🚀 ~ file: index.tsx:46 ~ submit ~ error:", error)
+    }
    });
-   navigate('/dashboard');
-   console.log("🚀 ~ file: index.tsx:44 ~ submit ~ result:", result)})
 
   return (
     <div className={style.background}>
