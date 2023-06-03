@@ -1,9 +1,10 @@
+import { Header } from "../../components/header";
 
 export function Dashboard() {
   
   return (
     <div>
-      <h1>Dashboard</h1>
+     <Header />
     </div>
   )
 }
