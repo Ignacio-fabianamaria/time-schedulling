@@ -5,7 +5,7 @@ import {useForm} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Button } from '../../components/button';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {AiOutlineMail} from 'react-icons/ai';
 import {RiLockPasswordLine} from 'react-icons/ri';
 import { useAuth } from '../../hooks/auth';
@@ -18,7 +18,6 @@ interface IFormValues{
 
 export function Login() {
   const {signIn} = useAuth()
-  const navigate = useNavigate();
   const schema = yup.object().shape({
     email: yup
     .string()
@@ -41,7 +40,7 @@ export function Login() {
   const submit = handleSubmit(({email, password}) => {
     try {
       signIn({email, password});
-      navigate('/dashboard')
+      
     } catch (error) {
       console.log("🚀 ~ file: index.tsx:46 ~ submit ~ error:", error)
     }

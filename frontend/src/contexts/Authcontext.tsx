@@ -2,6 +2,7 @@ import { ReactNode, createContext } from "react";
 import { api } from "../server";
 import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface IAuthProvider { children: ReactNode }
 interface IAuthContextData { signIn: ({ email, password }: ISignIn) => void }
@@ -10,6 +11,7 @@ interface ISignIn { email: string, password: string }
 export const AuthContext = createContext({} as IAuthContextData);
 
 export function AuthProvider({ children }: IAuthProvider) {
+  const navigate = useNavigate();
   async function signIn({ email, password }: ISignIn) {
     try {
       const { data } = await api.post('/users/auth', { email, password });
@@ -22,6 +24,8 @@ export function AuthProvider({ children }: IAuthProvider) {
       localStorage.setItem('token:token-timeScheduling', token);
       localStorage.setItem('refresh_token:token-timeScheduling', refresh_Token);
       localStorage.setItem('user:token-timeScheduling', JSON.stringify(userData));
+      navigate('/dashboard');
+      toast.success(`Seja bem vindo, ${userData.name}`)
       return data;
     } catch (error) {
       if (isAxiosError(error)) {
