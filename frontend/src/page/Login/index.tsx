@@ -5,9 +5,10 @@ import {useForm} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Button } from '../../components/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {AiOutlineMail} from 'react-icons/ai';
 import {RiLockPasswordLine} from 'react-icons/ri';
+import { api } from '../../server';
 
 
 interface IFormValues{
@@ -16,6 +17,7 @@ interface IFormValues{
 }
 
 export function Login() {
+  const navigate = useNavigate();
   const schema = yup.object().shape({
     email: yup
     .string()
@@ -27,10 +29,21 @@ export function Login() {
    .required('Campo de senha origatório'),
   });
 
-  const {register, handleSubmit, formState: {errors}} = useForm<IFormValues>({resolver: yupResolver(schema)});
+  const {
+    register,
+    handleSubmit,
+    formState: {errors}
+  } = useForm<IFormValues>({
+    resolver: yupResolver(schema)
+  });
   
-  const submit = handleSubmit((data) => {
-    console.log("🚀 ~ file: index.tsx:28 ~ Login ~ data:", data)})
+  const submit = handleSubmit(async(data) => {
+   const result = await api.post('/users/auth', {
+    email:data.email,
+    password:data.password,
+   });
+   navigate('/dashboard');
+   console.log("🚀 ~ file: index.tsx:44 ~ submit ~ result:", result)})
 
   return (
     <div className={style.background}>
