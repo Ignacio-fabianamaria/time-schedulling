@@ -10,7 +10,8 @@ const api = axios.create({
 });
 
 const refreshSubscribers:Array<(token:string)=>void> = [];
-let failedRequest:Array<IRequestConfig> = []
+let failedRequest:Array<IRequestConfig> = [];
+let isRefreshing = false;
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token:token-timeScheduling');
@@ -26,7 +27,7 @@ api.interceptors.response.use((response) => response, async (error: AxiosError |
   if (error instanceof AxiosError && error.response?.status === 401) {
 
     if (error.response.data && error.response.data.code === 'token.expired') {
-
+if(!isRefreshing){
       try {
         
         const refresh = localStorage.getItem('refresh_Token:token-timeScheduling')
@@ -35,6 +36,7 @@ api.interceptors.response.use((response) => response, async (error: AxiosError |
   
         localStorage.setItem('token:token-timeScheduling', token);
         localStorage.setItem('token:token-timeScheduling', refresh_Token);
+        isRefreshing = false;
         onRefreahed(token)
   
         if (originalRequest?.headers) {
@@ -47,6 +49,14 @@ api.interceptors.response.use((response) => response, async (error: AxiosError |
         });
         failedRequest = [];
       }
+    }
+      return new Promise((resolve, reject)=>{
+        failedRequest.push({
+          ...originalRequest,
+          onSuccess:(response)=>resolve(response),
+        onFailure:(error)=>reject(error),
+        });
+      });
     }
   }else {
     localStorage.removeItem('token:token-timeScheduling');

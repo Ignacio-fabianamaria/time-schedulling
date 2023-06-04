@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { api } from "../server";
 import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
@@ -8,15 +8,23 @@ interface IAuthProvider { children: ReactNode }
 interface IAuthContextData { 
   signIn: ({ email, password }: ISignIn) => void;
   signOut: ()=>void;
-  user:IUserData
+  schedules:Array<ISchedule>;
+  user:IUserData;
+  availableSchedules: Array<string>;
+  date:string;
+  handleSetDate:(date:string)=> void;
 }
 interface IUserData{name:string,avatar_url:string, email:string}
 interface ISignIn { email: string, password: string }
+interface ISchedule {name:string, phone:string, date:Date, id:string}
 
 export const AuthContext = createContext({} as IAuthContextData);
 
 
 export function AuthProvider({ children }: IAuthProvider) {
+  const [schedules, setSchedules] = useState<Array<ISchedule>>([]);
+  const [date, setDate] = useState('');
+  const availableSchedules = ['09','10','11','12','13','14','15','16','17','18','19'];
   const [user, setUser] = useState(()=>{
     const user = localStorage.getItem('user:token-timeScheduling')
     if(user){
@@ -25,6 +33,17 @@ export function AuthProvider({ children }: IAuthProvider) {
     return {};
   })
   const navigate = useNavigate();
+  const handleSetDate = (date: string)=>{
+    setDate(date)
+  }
+
+  useEffect(() => {
+    api.get('/schedules', {params: {date}})
+      .then((response) => { console.log('useeffect', response);
+       setSchedules(response.data)})
+      .catch((error) => console.log(error));
+  }, [date]);
+
   async function signIn({ email, password }: ISignIn) {
     try {
       const { data } = await api.post('/users/auth', { email, password });
@@ -57,7 +76,9 @@ function signOut(){
 }
 
   return (
-    <AuthContext.Provider value={{ signIn, signOut, user }}>
+    <AuthContext.Provider value={
+      { signIn, signOut, user, availableSchedules, schedules, date, handleSetDate }
+      }>
       {children}
     </AuthContext.Provider>
   )

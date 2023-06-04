@@ -56,12 +56,12 @@ class UsersServices {
         let secretKeyRefresh: string | undefined = process.env.ACCESS_KEY_TOKEN_REFRESH;
         if (!secretKeyRefresh) { throw new Error('There is no token key') };
 
-        let secretKey: string | undefined = process.env.ACCESS_KEY_TOKEN_REFRESH;
+        let secretKey: string | undefined = process.env.ACCESS_KEY_TOKEN;
         if (!secretKey) { throw new Error('There is no token key') };
 
-        const verifyToken = verify(refresh_Token, secretKeyRefresh);
+        const verifyToken = await verify(refresh_Token, secretKeyRefresh);
         const {sub} = verifyToken;
-        const newToken = sign({sub}, secretKey, {expiresIn: '1h'});
+        const newToken = sign({sub}, secretKey, {expiresIn: '6h'});
         const refreshToken = sign({sub}, secretKeyRefresh, {expiresIn: '7d'})
 
         return { token: newToken, refresh_Token:refreshToken};

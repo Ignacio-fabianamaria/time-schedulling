@@ -50,6 +50,7 @@ export const Card = ({name, date, id, phone}:ISchedule) => {
       isOpen={openModal}
       handleChangeModal={handleChangeModal}
       hour={hour}
+      id={id}
       name={name}
       />
       </>
