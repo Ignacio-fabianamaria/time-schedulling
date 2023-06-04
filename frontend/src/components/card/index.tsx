@@ -23,12 +23,20 @@ export const Card = ({name, date, id, phone}:ISchedule) => {
     <>
     <div className={style.background}>
       <div>
-        <span className={ `${!isAfterDate && style.disabled}`}>{getHours(new Date(date))}</span>
+        <span
+        className={ `${!isAfterDate && style.disabled}`}>
+          {getHours(new Date(date))}
+          </span>
         <p>{name} - {phoneFormatted}</p>
         </div>
         <div className={style.icons}>
-          <CiEdit color="#5F68B1" size={22} onClick={()=>setOpenModal(!openModal)} />
-          < RiDeleteBin6Line color="#EB2E2E" size={17}/>
+          <CiEdit
+          color="#5F68B1"
+          size={22} 
+          onClick={()=> isAfterDate && setOpenModal(!openModal)} />
+          < RiDeleteBin6Line
+          color="#EB2E2E"
+          size={17}/>
         </div>
       </div>
       < ModalEdit isOpen={openModal} />

@@ -32,11 +32,14 @@ class UsersServices {
         let secretKey: string | undefined = process.env.ACCESS_KEY_TOKEN;
         if (!secretKey) { throw new Error('There is no token key') }
 
+        let secretKeyRefreshToken: string | undefined = process.env.ACCESS_KEY_TOKEN_REFRESH;
+        if (!secretKeyRefreshToken) { throw new Error('There is no token key') }
+
         const token = sign({ email }, secretKey, {
             subject: findUser.id,
             expiresIn: 60 * 20,
         });
-        const refreshToken = sign({ email }, secretKey, {
+        const refreshToken = sign({ email }, secretKeyRefreshToken, {
             subject: findUser.id,
             expiresIn: '7d',
         });
@@ -50,13 +53,16 @@ class UsersServices {
     async refresh(refresh_Token: string) {
         if (!refresh_Token) { throw new Error('Refresh token missing')};
 
-        let secretKey: string | undefined = process.env.ACCESS_KEY_TOKEN;
+        let secretKeyRefresh: string | undefined = process.env.ACCESS_KEY_TOKEN_REFRESH;
+        if (!secretKeyRefresh) { throw new Error('There is no token key') };
+
+        let secretKey: string | undefined = process.env.ACCESS_KEY_TOKEN_REFRESH;
         if (!secretKey) { throw new Error('There is no token key') };
 
-        const verifyToken = verify(refresh_Token, secretKey);
+        const verifyToken = verify(refresh_Token, secretKeyRefresh);
         const {sub} = verifyToken;
         const newToken = sign({sub}, secretKey, {expiresIn: '1h'});
-        const refreshToken = sign({sub}, secretKey, {expiresIn: '7d'})
+        const refreshToken = sign({sub}, secretKeyRefresh, {expiresIn: '7d'})
 
         return { token: newToken, refresh_Token:refreshToken};
     }

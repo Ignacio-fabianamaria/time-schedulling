@@ -5,7 +5,7 @@ export function ModalEdit({ isOpen }) {
     return (
       <div className={style.background}>
         <div className={style.modal}>
-          <h2>lalala</h2>
+          <h2>Editar Card</h2>
         </div>
       </div>
     );
