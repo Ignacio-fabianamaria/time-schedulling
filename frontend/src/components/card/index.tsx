@@ -19,6 +19,10 @@ export const Card = ({name, date, id, phone}:ISchedule) => {
   let phoneFormatted = phone.replace('/D/g', '');
   phoneFormatted = phoneFormatted.replace(/(\d{2})(\d{4})(\d{4})/,'($1) $2-$3');
 
+  const handleChangeModal = () =>{
+    setOpenModal(!openModal)
+  }
+
   return (
     <>
     <div className={style.background}>
@@ -33,13 +37,13 @@ export const Card = ({name, date, id, phone}:ISchedule) => {
           <CiEdit
           color="#5F68B1"
           size={22} 
-          onClick={()=> isAfterDate && setOpenModal(!openModal)} />
+          onClick={()=> isAfterDate && handleChangeModal()} />
           < RiDeleteBin6Line
           color="#EB2E2E"
           size={17}/>
         </div>
       </div>
-      < ModalEdit isOpen={openModal} />
+      < ModalEdit isOpen={openModal} handleChangeModal={handleChangeModal}/>
       </>
   )
 }
