@@ -3,10 +3,12 @@ import style from './ModalEdit.module.css';
 
 interface IModal{
   isOpen:boolean;
+  hour:string;
+  name:string;
   handleChangeModal:()=> void;
 }
 
-export function ModalEdit({ isOpen, handleChangeModal}:IModal) {
+export function ModalEdit({ isOpen, handleChangeModal, hour, name}:IModal) {
 const currentValue = new Date().toISOString().split('T')[0];
 
   if (isOpen) {
@@ -18,7 +20,7 @@ const currentValue = new Date().toISOString().split('T')[0];
             <AiOutlineClose size={20} onClick={handleChangeModal}/>
           </div>
           <div className={style.body}>
-            <p>10h</p>
+            <p>{hour}h - {name}</p>
             <div className={style.input}>
               <label htmlFor="">Indique uma nova data:</label>
               <input type="date" defaultValue={currentValue}/>

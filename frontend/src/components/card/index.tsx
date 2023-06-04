@@ -16,6 +16,9 @@ export const Card = ({name, date, id, phone}:ISchedule) => {
   const isAfterDate = isAfter(new Date(date), new Date());
   const [openModal, setOpenModal] = useState<boolean>(false);
 
+  const dateFormated = new Date(date);
+  const hour = getHours(dateFormated);
+
   let phoneFormatted = phone.replace('/D/g', '');
   phoneFormatted = phoneFormatted.replace(/(\d{2})(\d{4})(\d{4})/,'($1) $2-$3');
 
@@ -29,7 +32,7 @@ export const Card = ({name, date, id, phone}:ISchedule) => {
       <div>
         <span
         className={ `${!isAfterDate && style.disabled}`}>
-          {getHours(new Date(date))}
+          {hour}h
           </span>
         <p>{name} - {phoneFormatted}</p>
         </div>
@@ -43,7 +46,12 @@ export const Card = ({name, date, id, phone}:ISchedule) => {
           size={17}/>
         </div>
       </div>
-      < ModalEdit isOpen={openModal} handleChangeModal={handleChangeModal}/>
+      < ModalEdit
+      isOpen={openModal}
+      handleChangeModal={handleChangeModal}
+      hour={hour}
+      name={name}
+      />
       </>
   )
 }
