@@ -42,12 +42,11 @@ export function Dashboard() {
   }, [date]);
 
   return (
-    <div>
+    
       <div className="container" >
         <Header />
         <div className={style.dataTitle}>
           <h2>Bem vindo(a), {user.name} !</h2>
-        </div>
         <p>
           Esta é sua lista de horários {isToday(date) && <span>de hoje, </span>}
           dia {format(date, 'dd/MM/yyy')}
