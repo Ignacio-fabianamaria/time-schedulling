@@ -49,9 +49,10 @@ export const Card = ({name, date, id, phone}:ISchedule) => {
       < ModalEdit
       isOpen={openModal}
       handleChangeModal={handleChangeModal}
-      hour={hour}
+      hour={String(hour)}
       id={id}
       name={name}
+      
       />
       </>
   )

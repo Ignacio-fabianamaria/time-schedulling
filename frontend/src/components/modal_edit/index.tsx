@@ -29,15 +29,18 @@ export function ModalEdit({ isOpen, handleChangeModal, hour, name, id }: IModal)
     });
     return isScheduleAvailable;
   });
+  
+  console.log('date:', date);
 
   const handleChangeHour = (hour: string) => {
+    console.log('Novo valor de date:', date);
     setHourSchedule(hour);
   };
 
   const updateData = async () => {
     const formattedDate = formatISO(
       setHours(parseISO(date), parseInt(hourSchedule)),
-    );
+    );   
     try {
       await api.put(`/schedules/${id}`, {
         date: formattedDate,
