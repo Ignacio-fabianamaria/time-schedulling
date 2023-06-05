@@ -45,7 +45,16 @@ class SchedulesControlle{;
     };
 
     //metodo para deletar
-    delete(request:Request, response:Response, next:NextFunction){};
+    async delete(request: Request, response: Response, next: NextFunction) {
+        const { id } = request.params;
+        try {
+          const result = await this.schedulesService.delete(id);
+    
+          return response.json(result);
+        } catch (error) {
+          next(error);
+        }
+      }
 
 }
 export{SchedulesControlle}

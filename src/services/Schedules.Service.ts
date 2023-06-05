@@ -1,6 +1,7 @@
 import { ISchedulesCreate } from "../interfaces/SchedulesInterface";
 import { startOfHour, isBefore, getHours } from 'date-fns'
 import { SchedulesRepository } from "../repositories/SchedulesRepository";
+import { prisma } from "../database/prisma";
 
 class SchedulesService {
     private schedulesRepository: SchedulesRepository;
@@ -55,6 +56,18 @@ class SchedulesService {
         const result = await this.schedulesRepository.update(id, date);
         return result;
     }
+
+    async delete(id: string) {
+        const checkExists = await this.schedulesRepository.findById(id);
+    
+        if (!checkExists) {
+          throw new Error('Schedule doenst exists');
+        }
+    
+        const result = await this.schedulesRepository.delete(id);
+    
+        return result;
+      }
 
 }
 
