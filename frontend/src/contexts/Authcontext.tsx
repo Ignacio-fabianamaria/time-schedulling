@@ -13,6 +13,7 @@ interface IAuthContextData {
   availableSchedules: Array<string>;
   date:string;
   handleSetDate:(date:string)=> void;
+  isAuthenticated:boolean;
 }
 interface IUserData{name:string,avatar_url:string, email:string}
 interface ISignIn { email: string, password: string }
@@ -32,7 +33,10 @@ export function AuthProvider({ children }: IAuthProvider) {
       return JSON.parse(user)
     }
     return {};
-  })
+  });
+
+const isAuthenticated = !! user && Object.keys(user).length !== 0;
+
   const navigate = useNavigate();
   const handleSetDate = (date: string)=>{
     setDate(date)
@@ -78,9 +82,16 @@ function signOut(){
 }
 
   return (
-    <AuthContext.Provider value={
-      { signIn, signOut, user, availableSchedules, schedules, date, handleSetDate }
-      }>
+    <AuthContext.Provider value={{
+      signIn,
+      signOut,
+      user,
+      availableSchedules,
+      schedules,
+      date,
+      handleSetDate,
+      isAuthenticated 
+    }}>
       {children}
     </AuthContext.Provider>
   )
