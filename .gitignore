@@ -3,3 +3,4 @@ dist
 .env-example
 .env-old
 .env
+.env
