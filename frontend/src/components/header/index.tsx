@@ -22,8 +22,10 @@ export function Header() {
           <ul className={`${style.dropdownMenu} ${open && style.open}`}>
             <li className={style.dropdownMenuItem}
               onClick={() => navigate('/schedules')}>Agendamentos</li>
-            <li className={style.dropdownMenuItem}>Editar</li>
-            <li className={style.dropdownMenuItem} onClick={signOut} >Sair</li>
+            <li className={style.dropdownMenuItem}
+              onClick={() => navigate('/edit-profile')}>Editar</li>
+            <li className={style.dropdownMenuItem}
+              onClick={signOut} >Sair</li>
           </ul>
         </div>
       </div>
