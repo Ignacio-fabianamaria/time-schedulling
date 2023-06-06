@@ -5,6 +5,34 @@
 
 }
 
+.fileUpload img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.fileUpload{
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.imageUpload input[type='file']{
+display: none;
+}
+
+.imageUpload {
+    background-color: var(--primary);
+    padding: 10px;
+    border-radius: 50%;
+    display: inline-flex;
+    color: var(--white);
+    position: absolute;
+    bottom: 10px;
+    right: 40%;
+    cursor: pointer;
+  }
+
 .footer{
     display: flex; 
     justify-content:space-between;
