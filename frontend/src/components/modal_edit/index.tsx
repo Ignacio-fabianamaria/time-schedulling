@@ -33,7 +33,6 @@ export function ModalEdit({ isOpen, handleChangeModal, hour, name, id }: IModal)
   console.log('date:', date);
 
   const handleChangeHour = (hour: string) => {
-    console.log('Novo valor de date:', date);
     setHourSchedule(hour);
   };
 

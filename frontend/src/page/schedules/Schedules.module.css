@@ -3,6 +3,13 @@
     margin: auto;
 }
 
+.container h2{
+  font-family: 300;
+  color: var(--primary);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 .footer{
     display: flex; 
     justify-content:space-between;
@@ -53,7 +60,7 @@
     align-items: center;
     height: fit-content;
     padding: .7rem;
-    margin-top: 1rem;
+    margin-top: .5rem;
  }
 
  .select{
@@ -66,5 +73,6 @@
  .select label{
     color: var(--primary);
     padding: .5rem;
+    margin-top: .5rem;
  }
  

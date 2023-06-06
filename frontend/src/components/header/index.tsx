@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useAuth } from '../../hooks/auth';
 
 export function Header() {
-  const {signOut} = useAuth();
+  const { signOut } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false)
   return (
@@ -16,11 +16,12 @@ export function Header() {
         <span>Beleza e Estética</span>
       </div>
       <div className={style.profile}>
-      <div className={style.dropdown} onClick={() => setOpen(!open)}>
-        <BsPersonCircle size={25} />
-        <span>Perfil</span>
+        <div className={style.dropdown} onClick={() => setOpen(!open)}>
+          <BsPersonCircle size={25} />
+          <span>Perfil</span>
           <ul className={`${style.dropdownMenu} ${open && style.open}`}>
-            <li className={style.dropdownMenuItem}>Agendamentos</li>
+            <li className={style.dropdownMenuItem}
+              onClick={() => navigate('/schedules')}>Agendamentos</li>
             <li className={style.dropdownMenuItem}>Editar</li>
             <li className={style.dropdownMenuItem} onClick={signOut} >Sair</li>
           </ul>
