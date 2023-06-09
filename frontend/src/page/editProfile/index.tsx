@@ -87,8 +87,9 @@ setFileUpload(image_url);
   }
 
   return (
-    <div className='container'>
+    <div className={`${style.container} container`}>
       <Header />
+      <h2>Editar Perfil</h2>
       <div className={style.formDiv}>
       <form onSubmit={submit}>
           {fileUpload && (

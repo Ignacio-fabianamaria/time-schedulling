@@ -44,7 +44,7 @@ export const Card = ({ name, date, id, phone }: ISchedule) => {
   };
 
   if (deleted) {
-    return null; // Se o agendamento foi excluído, não renderiza o componente
+    return null; 
   }
 
   return (
