@@ -16,6 +16,7 @@ interface ISchedule {
 }
 
 export const Card = ({ name, date, id, phone }: ISchedule) => {
+  const [deleted, setDeleted] = useState<boolean>(false);
   const isAfterDate = isAfter(new Date(date), new Date());
   const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -33,6 +34,7 @@ export const Card = ({ name, date, id, phone }: ISchedule) => {
     try {
       const result = await api.delete(`/schedules/${id}`);
       toast.success('Deletado com sucesso');
+      setDeleted(true)
       console.log('🚀 ~ file: index.tsx:35 ~ handleDelete ~ result:', result);
     } catch (error) {
       if (isAxiosError(error)) {
@@ -40,6 +42,10 @@ export const Card = ({ name, date, id, phone }: ISchedule) => {
       }
     }
   };
+
+  if (deleted) {
+    return null; // Se o agendamento foi excluído, não renderiza o componente
+  }
 
   return (
     <>

@@ -37,7 +37,7 @@ class UsersServices {
 
         const token = sign({ email }, secretKey, {
             subject: findUser.id,
-            expiresIn: 60 * 20,
+            expiresIn: '1d',
         });
         const refreshToken = sign({ email }, secretKeyRefreshToken, {
             subject: findUser.id,

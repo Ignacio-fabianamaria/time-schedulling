@@ -21,6 +21,8 @@ export function Dashboard() {
   const [schedules, setSchedules] = useState<Array<ISchedule>>([]);
   const { user } = useAuth();
 
+
+
   const isWeekend = (date: Date) => {
     const day = date.getDay();
     return day === 0 || day === 6;
