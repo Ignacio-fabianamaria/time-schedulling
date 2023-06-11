@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
 import logo from '../../assets/logo.webp';
 import { Input } from '../../components/input';
 import style from './Register.module.css';
@@ -10,6 +11,7 @@ import {AiOutlineMail} from 'react-icons/ai';
 import {BsPersonCircle} from 'react-icons/bs';
 import {RiLockPasswordLine} from 'react-icons/ri';
 import { api } from '../../server';
+import { isAxiosError } from 'axios';
 
 interface IFormValues {
   name: string;
@@ -18,6 +20,7 @@ interface IFormValues {
 }
 
 export function Register() {
+  const navigate = useNavigate();
   const schema = yup.object().shape({
     name: yup
     .string()
@@ -32,13 +35,22 @@ export function Register() {
     .required('Campo de senh obrigatório')
   })
   const { register, handleSubmit, formState: { errors } } = useForm<IFormValues>({resolver: yupResolver(schema)});
+  
   const submit = handleSubmit(async(data) => {
-    const result = await api.post('/users', {
-      name:data.name,
-      email:data.email,
-      password:data.password,
-    });
-    console.log("🚀 ~ file: index.tsx:41 ~ submit ~ result:", result.data)
+    try {
+      const result = await api.post('/users', {
+        name:data.name,
+        email:data.email,
+        password:data.password,
+      });
+      toast.success('Cadastrado com sucesso');
+        navigate('/')
+      console.log("🚀 ~ file: index.tsx:41 ~ submit ~ result:", result.data)
+    } catch (error) {
+      if (isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      }
+    }
   });
 
   return (
