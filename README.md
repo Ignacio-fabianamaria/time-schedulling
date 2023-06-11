@@ -80,7 +80,7 @@ npm run dev
 
 - HTML
 
-- CSS: Linguagem de estilo utilizada para definir a aparência e o layout dos elementos na interface de usuário.
+- CSS: 
 
 ## 📌 Observações
 Projeto desenvolvido durante o Workshop "SEMANA DO HERÓI"  disponibilizado pela Hero Code.
